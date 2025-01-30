@@ -35,11 +35,14 @@ export default function AuthModal() {
             sm: "450px",
         },
         transform: 'translate(-50%, -50%)',
-        bgcolor: `${isDarkMode ? "#1e293b" : "#cae3fa"}`,
+        bgcolor: `${isDarkMode ? "#1e293b" : "#80b2bb"}`,
         border: `2px solid ${isDarkMode ? "white" : "black"}`,
         borderRadius: 3,
         boxShadow: 24,
         p: 2,
+        display: "flex",
+        flexDirection: "column",
+        gap: 3,
     };
 
     return (
