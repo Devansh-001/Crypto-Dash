@@ -28,7 +28,7 @@ export default function AuthModal() {
 
     const style = {
         position: 'absolute',
-        top: '40%',
+        top: '50%',
         left: '50%',
         width: {
             xs: "250px",

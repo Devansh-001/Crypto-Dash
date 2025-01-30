@@ -3,7 +3,7 @@ import { Box, TextField } from '@mui/material';
 import React, { useState } from 'react';
 import Button from '../Button';
 
-const Login = () => {
+const Login = ({ handleClose }) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const { isDarkMode } = useTheme();
@@ -17,6 +17,7 @@ const Login = () => {
         borderRadius: 3,
         boxShadow: isDarkMode ? "0px 4px 10px rgba(255, 255, 255, 0.1)" : "0px 4px 10px rgba(0, 0, 0, 0.1)",
         color: isDarkMode ? "#b0b0b0" : "#333333",
+        alignItems: "center"
     };
 
     const textFieldStyles = {
@@ -39,6 +40,10 @@ const Login = () => {
         },
     };
 
+    const handleSubmit = async () => {
+        
+    }
+
     return (
         <Box sx={styles}>
             <TextField
@@ -58,7 +63,7 @@ const Login = () => {
                 sx={textFieldStyles}
             />
 
-            <Button title={"Login"}/>
+            <Button title={"Login"} onSubmit={handleSubmit} />
         </Box>
     );
 }
