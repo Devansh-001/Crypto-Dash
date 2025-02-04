@@ -16,9 +16,7 @@ const CoinPage = () => {
     const { currency } = useSelector(store => store.coinSlice)
 
     const fetchCoin = async () => {
-
-        // const res = await fetch(`https://api.coingecko.com/api/v3/coins/${id}`, options);
-
+        
         const res = await fetch(`https://api.coingecko.com/api/v3/coins/${id}`);
         const data = await res.json();
         setCoin(data)
@@ -36,7 +34,7 @@ const CoinPage = () => {
 
 
     return (
-        <div className="bg-light-background text-light-text dark:bg-dark-background dark:text-dark-text flex flex-col sm:flex-row items-center p-3">
+        <div className="bg-light-background text-light-text dark:bg-dark-background dark:text-dark-text flex flex-col sm:flex-row items-center p-3 h-full">
             <CoinSideBar coin={coin} currency={currency} />
             <CoinChart coin={coin} currency={currency} />
         </div>
