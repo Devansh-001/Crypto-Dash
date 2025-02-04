@@ -1,12 +1,10 @@
 "use client"
 
 import "./globals.css"
-import Footer from "./Components/Footer";
 import Navbar from "./Components/Navbar";
 import { ThemeProvider } from "@/Context/ThemeContext";
 import { Provider} from "react-redux";
 import store from "@/redux/store";
-import { LineWave } from "react-loader-spinner";
 import SetUser from "./Components/Authentication/SetUser";
 import CustomizedSnackbars from "./Components/Authentication/CustomizedSnackbars";
 import SetWatchlist from "./Components/Authentication/SetWatchlist";
@@ -31,7 +29,6 @@ export default function RootLayout({ children }) {
             <SetWatchlist />
             <Navbar />
             {children}
-            {/* <Footer /> */}
             <CustomizedSnackbars />
           </Provider>
         </ThemeProvider>
