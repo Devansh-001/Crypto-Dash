@@ -7,6 +7,11 @@ import { Tab, Tabs } from '@mui/material';
 import { useTheme } from '@/Context/ThemeContext';
 import SignUp from './SignUp';
 import LogIn from './LogIn';
+import GoogleButton from 'react-google-button';
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { auth, googleProvider } from '../../../../firebaseConfig';
+import { setAlert } from '@/redux/coinSlice';
+import { useDispatch } from 'react-redux';
 
 
 
@@ -18,10 +23,30 @@ export default function AuthModal() {
 
     const [value, setValue] = React.useState(0);
 
+    const dispatch = useDispatch();
+
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
 
+    const handleSignInWithGoogle = async () => {
+        try {
+            const res = await signInWithPopup(auth, googleProvider);
+            dispatch(setAlert({
+                msg: `Login Successful.\n Welcome ${res.user.displayName || res.user.email}`,
+                type: "success",
+                openSnackBar: true
+            }));
+            handleClose();
+        }
+        catch (e) {
+            dispatch(setAlert({
+                msg: e.message,
+                type: "error",
+                openSnackBar: true,
+            }));
+        }
+    }
 
     const { isDarkMode } = useTheme();
 
@@ -63,6 +88,10 @@ export default function AuthModal() {
                     {
                         value === 0 ? <SignUp handleClose={handleClose} /> : <LogIn handleClose={handleClose} />
                     }
+
+                    <Box sx={{ display: 'flex', justifyContent: "center" }}>
+                        <GoogleButton onClick={handleSignInWithGoogle} />
+                    </Box>
                 </Box>
             </Modal>
         </div>

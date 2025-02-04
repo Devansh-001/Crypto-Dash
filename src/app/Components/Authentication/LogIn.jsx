@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import Button from '../Button';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../../../firebaseConfig';
-import CustomizedSnackbars from './CustomizedSnackbars';
 import { useDispatch } from 'react-redux';
 import { setAlert } from '@/redux/coinSlice';
 
@@ -87,11 +86,11 @@ const Login = ({ handleClose }) => {
                 errorMessage = "Incorrect password.";
             }
 
-            setAlert({
+            dispatch(setAlert({
                 msg: errorMessage,
                 type: "error",
                 openSnackBar: true,
-            });
+            }));
         }
         finally {
             setIsLoading(false);

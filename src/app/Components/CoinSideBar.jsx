@@ -1,8 +1,67 @@
 import Image from 'next/image'
-import React from 'react'
+import React, { useEffect } from 'react'
 import ReactHtmlParser from "html-react-parser"
+import { useDispatch, useSelector } from 'react-redux'
+import Button from './Button'
+import { doc, setDoc } from 'firebase/firestore'
+import { db } from '../../../firebaseConfig'
+import { setAlert } from '@/redux/coinSlice'
 
 const CoinSideBar = ({ coin, currency }) => {
+
+    const { user, watchlist } = useSelector(store => store.coinSlice)
+    const dispatch = useDispatch();
+
+    const addToWatchlist = async () => {
+        const coinRef = doc(db, "watchlist", user.uid);
+
+        try {
+            // Update Firestore with the new watchlist
+            await setDoc(coinRef, {
+                coins: [...watchlist, coin.id]
+            }, { merge: true });
+
+            dispatch(setAlert({
+                msg: `${coin.name} Added to the watchlist!`,
+                type: "success",
+                openSnackBar: true
+            }));
+        }
+        catch (e) {
+            dispatch(setAlert({
+                msg: e.message,
+                type: "error",
+                openSnackBar: true
+            }))
+        }
+    }
+
+    const removeFromWatchlist = async () => {
+        const coinRef = doc(db, "watchlist", user.uid);
+
+        try {
+            await setDoc(
+                coinRef,
+                { coins: watchlist.filter((listCoin) => listCoin !== coin.id) },
+                { merge: true },
+            );
+
+            dispatch(setAlert({
+                msg: `${coin.name} Removed from the watchlist!`,
+                type: "success",
+                openSnackBar: true
+            }));
+        }
+        catch (e) {
+            dispatch(setAlert({
+                msg: e.message,
+                type: "error",
+                openSnackBar: true
+            }))
+        }
+    }
+
+    const isInWatchlist = watchlist.includes(coin?.id);
 
     return (
         <div className='flex flex-col gap-5 sm:w-[30%] w-full p-4 sm:border-r-2 dark:border-white border-black'>
@@ -18,6 +77,14 @@ const CoinSideBar = ({ coin, currency }) => {
                 <span>Market Cap:
                     {currency.symbol}{coin?.market_data?.market_cap?.[currency.name]?.toLocaleString()}
                 </span>
+
+                {
+                    user &&
+                    <Button className={'w-full'} onClick={isInWatchlist ? removeFromWatchlist : addToWatchlist}>
+                        {isInWatchlist ? "Remove from watchlist" : "Add to watchlist"}
+                    </Button>
+                }
+
             </div>
         </div>
     )

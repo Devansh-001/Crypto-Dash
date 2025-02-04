@@ -17,7 +17,8 @@ const coinSlice = createSlice({
             msg: "",
             type: "success",
             openSnackBar: false,
-        }
+        },
+        watchlist: []
 
     },
     reducers: {
@@ -38,11 +39,14 @@ const coinSlice = createSlice({
         },
         setAlert: (state, action) => {
             state.alert = action.payload;
+        },
+        setWatchlist: (state, action) => {
+            state.watchlist = action.payload;
         }
     }
 
 })
 
-export const { setAllCoins, setCurrency, setSearchInput, setPage, setUser, setAlert } = coinSlice.actions;
+export const { setAllCoins, setCurrency, setSearchInput, setPage, setUser, setAlert, setWatchlist } = coinSlice.actions;
 
 export default coinSlice.reducer;
