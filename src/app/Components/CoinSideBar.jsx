@@ -19,7 +19,7 @@ const CoinSideBar = ({ coin, currency }) => {
             // Update Firestore with the new watchlist
             await setDoc(coinRef, {
                 coins: [...watchlist, coin.id]
-            }, { merge: true });
+            });
 
             dispatch(setAlert({
                 msg: `${coin.name} Added to the watchlist!`,
@@ -61,7 +61,7 @@ const CoinSideBar = ({ coin, currency }) => {
         }
     }
 
-    const isInWatchlist = watchlist.includes(coin?.id);
+    const isInWatchlist = watchlist?.includes(coin?.id);
 
     return (
         <div className='flex flex-col gap-5 sm:w-[30%] w-full p-4 sm:border-r-2 dark:border-white border-black'>
