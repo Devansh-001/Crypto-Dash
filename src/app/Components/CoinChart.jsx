@@ -7,15 +7,16 @@ import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
 import { ThemeProvider, useTheme } from '@/Context/ThemeContext';
 import SelectButton from './SelectButton';
+import { useSelector } from 'react-redux';
 ChartJS.register(CategoryScale, LinearScale, LineElement, PointElement, Title, Tooltip, Legend);
 
 
 
-const CoinChart = ({ coin, currency }) => {
+const CoinChart = () => {
     const { id } = useParams();
     const [historicalData, setHistoricalData] = useState();
     const [days, setDays] = useState(1);
-
+    const { currency } = useSelector(store => store.coinSlice)
     const { isDarkMode } = useTheme();
 
     const fetchHistoricalData = async (id, days = 365, currency) => {

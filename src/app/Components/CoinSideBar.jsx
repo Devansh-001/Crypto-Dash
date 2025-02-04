@@ -1,5 +1,6 @@
+"use client"
+
 import Image from 'next/image'
-import React, { useEffect } from 'react'
 import ReactHtmlParser from "html-react-parser"
 import { useDispatch, useSelector } from 'react-redux'
 import Button from './Button'
@@ -7,9 +8,9 @@ import { doc, setDoc } from 'firebase/firestore'
 import { db } from '../../../firebaseConfig'
 import { setAlert } from '@/redux/coinSlice'
 
-const CoinSideBar = ({ coin, currency }) => {
+const CoinSideBar = ({ coin }) => {
 
-    const { user, watchlist } = useSelector(store => store.coinSlice)
+    const { user, watchlist, currency } = useSelector(store => store.coinSlice)
     const dispatch = useDispatch();
 
     const addToWatchlist = async () => {
@@ -67,9 +68,9 @@ const CoinSideBar = ({ coin, currency }) => {
         <div className='flex flex-col gap-6 sm:w-[30%] w-full p-4 sm:border-r-2 dark:border-white border-black'>
 
             <div className='flex flex-col items-center gap-5'>
-                <Image src={coin?.image.large} width={120} height={120} alt='coin' />
+                <Image src={coin?.image?.large} width={120} height={120} alt='coin' />
                 <h3 className='text-5xl font-bold'>{coin?.name}</h3>
-                <h3 className='text-[20px] sm:text-[15px] '>{ReactHtmlParser(coin?.description?.en?.split(".")[0]) + "...."}.</h3>
+                <h3 className='text-[20px] sm:text-[15px] '>{coin?.description?.en?.split(".")[0] + "..."}</h3>
             </div>
 
             <div className='flex flex-col justify-between sm:text-[14px] md:text-[18px] gap-5'>
