@@ -1,12 +1,13 @@
 "use client";
 
 import { setAllCoins, setPage } from '@/redux/coinSlice';
-import { Pagination } from '@mui/material';
+import { CircularProgress, Pagination } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useEffect, useRef, useState } from 'react'
-import { LineWave } from 'react-loader-spinner';
 import { useDispatch, useSelector } from 'react-redux';
+
+
 
 
 const CryptoTable = () => {
@@ -71,16 +72,7 @@ const CryptoTable = () => {
 
         <section className="bg-light-background text-light-text dark:bg-dark-background dark:text-dark-text flex justify-center p-6" ref={tableRef}>
 
-            {isLoading ? <LineWave visible={true}
-                height="100"
-                width="100"
-                color="#4fa94d"
-                ariaLabel="line-wave-loading"
-                wrapperStyle={{}}
-                wrapperClass=""
-                firstLineColor=""
-                middleLineColor=""
-                lastLineColor="" /> :
+            {isLoading ? <CircularProgress /> :
 
                 <div className="bg-blue-100 shadow-lg shadow-slate-600 dark:shadow-slate-600 dark:bg-[#1e293b] border border-[#312c2ca8] dark:border-[#ffffff99] rounded-2xl p-2">
                     <table className="w-fit">
