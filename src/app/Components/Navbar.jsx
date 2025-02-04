@@ -9,13 +9,17 @@ import { FaSignInAlt } from "react-icons/fa";
 import Link from "next/link";
 import Button from "./Button";
 import { setCurrency } from "@/redux/coinSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import AuthModal from "./Authentication/AuthModal";
+import UserSidebar from "./UserSidebar";
 
 
 const Navbar = () => {
 
     const dispatch = useDispatch();
+
+    const { user } = useSelector(store => store.coinSlice);
+
 
     const handleCurrency = (e) => {
         switch (e.target.value) {
@@ -90,7 +94,7 @@ const Navbar = () => {
                         </select>
                     </div>
 
-                    <AuthModal />
+                    {user ? <UserSidebar /> : <AuthModal />}
                 </div>
             </div>
 

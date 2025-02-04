@@ -2,11 +2,21 @@ import { useTheme } from '@/Context/ThemeContext';
 import { Box, TextField } from '@mui/material';
 import React, { useState } from 'react';
 import Button from '../Button';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../../../../firebaseConfig';
+import CustomizedSnackbars from './CustomizedSnackbars';
+import { useDispatch } from 'react-redux';
+import { setAlert } from '@/redux/coinSlice';
 
 const Login = ({ handleClose }) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+
+    const [isLoading, setIsLoading] = useState(false);
+
     const { isDarkMode } = useTheme();
+
+    const dispatch = useDispatch();
 
     const styles = {
         padding: 4,
@@ -41,8 +51,54 @@ const Login = ({ handleClose }) => {
     };
 
     const handleSubmit = async () => {
-        
+
+        console.log("button")
+        if (!email || !password) {
+            dispatch(setAlert({
+                msg: "Please fill all the fields.",
+                type: "error",
+                openSnackBar: true
+            }))
+            return;
+        }
+
+        setIsLoading(true);
+
+        try {
+            const res = await signInWithEmailAndPassword(auth, email, password);
+
+            dispatch(setAlert({
+                msg: `Login Successful.\n Welcome ${res.user.displayName || res.user.email}`,
+                type: "success",
+                openSnackBar: true
+            }));
+
+            handleClose();
+
+        }
+        catch (e) {
+            let errorMessage = e.message;
+
+            if (errorMessage.includes("auth/invalid-email")) {
+                errorMessage = "The email address is invalid.";
+            } else if (errorMessage.includes("auth/invalid-credential")) {
+                errorMessage = "Either email address or password is invalid.";
+            } else if (errorMessage.includes("auth/wrong-password")) {
+                errorMessage = "Incorrect password.";
+            }
+
+            setAlert({
+                msg: errorMessage,
+                type: "error",
+                openSnackBar: true,
+            });
+        }
+        finally {
+            setIsLoading(false);
+        }
     }
+
+    const isButtonDisabled = !email || !password || isLoading;
 
     return (
         <Box sx={styles}>
@@ -53,6 +109,8 @@ const Login = ({ handleClose }) => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 sx={textFieldStyles}
+                name='email'
+                required
             />
             <TextField
                 type="password"
@@ -61,9 +119,12 @@ const Login = ({ handleClose }) => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 sx={textFieldStyles}
+                name='password'
+                required
             />
 
-            <Button title={"Login"} onSubmit={handleSubmit} />
+            <Button title={"Login"} onClick={handleSubmit} disabled={isButtonDisabled} isLoading={isLoading} />
+
         </Box>
     );
 }

@@ -8,6 +8,8 @@ import { Provider } from "react-redux";
 import store from "@/redux/store";
 import { useEffect, useState } from "react";
 import { LineWave } from "react-loader-spinner";
+import SetUser from "./Components/Authentication/SetUser";
+import CustomizedSnackbars from "./Components/Authentication/CustomizedSnackbars";
 
 // export const metadata = {
 //   title: "Create Next App",
@@ -25,9 +27,11 @@ export default function RootLayout({ children }) {
       <body>
         <ThemeProvider>
           <Provider store={store}>
+            <SetUser />
             <Navbar />
             {children}
             {/* <Footer /> */}
+            <CustomizedSnackbars />
           </Provider>
         </ThemeProvider>
       </body>

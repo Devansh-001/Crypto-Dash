@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 
+
 const coinSlice = createSlice({
     name: "coinSlice",
     initialState: {
@@ -11,7 +12,12 @@ const coinSlice = createSlice({
         },
         searchInput: "",
         page: 1,
-        user: null
+        user: null,
+        alert: {
+            msg: "",
+            type: "success",
+            openSnackBar: false,
+        }
 
     },
     reducers: {
@@ -29,11 +35,14 @@ const coinSlice = createSlice({
         },
         setUser: (state, action) => {
             state.user = action.payload;
+        },
+        setAlert: (state, action) => {
+            state.alert = action.payload;
         }
     }
 
 })
 
-export const { setAllCoins, setCurrency, setSearchInput, setPage, setUser } = coinSlice.actions;
+export const { setAllCoins, setCurrency, setSearchInput, setPage, setUser, setAlert } = coinSlice.actions;
 
 export default coinSlice.reducer;

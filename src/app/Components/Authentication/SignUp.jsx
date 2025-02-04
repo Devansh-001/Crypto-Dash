@@ -5,16 +5,15 @@ import Button from '../Button';
 import CustomizedSnackbars from './CustomizedSnackbars';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../../../firebaseConfig';
+import { useDispatch } from 'react-redux';
+import { setAlert } from '@/redux/coinSlice';
 
 const SignUp = ({ handleClose }) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [alert, setAlert] = useState({
-        msg: "",
-        type: "success",
-        openSnackBar: false,
-    })
+    const [isLoading, setIsLoading] = useState(false);
+    const dispatch = useDispatch();
 
     const { isDarkMode } = useTheme();
 
@@ -52,42 +51,40 @@ const SignUp = ({ handleClose }) => {
 
     const handleSubmit = async () => {
         if (password !== confirmPassword) {
-            setAlert({
+            dispatch(setAlert({
                 msg: "Passwords do not match!",
                 type: "error",
                 openSnackBar: true
-            });
+            }));
             return
         }
+        setIsLoading(true);
+
         try {
             const res = await createUserWithEmailAndPassword(auth, email, password);
-            console.log(res)
 
-            setAlert({
+            dispatch(setAlert({
                 msg: `Sign Up Successful.\n Welcome ${res.user.displayName || res.user.email}`,
                 type: "success",
                 openSnackBar: true
-            });
-            
-            console.log(alert.msg)
+            }));
+
             handleClose();
+
         }
         catch (e) {
-            setAlert({
+            dispatch(setAlert({
                 msg: e.message,
                 type: "error",
                 openSnackBar: true
-            })
+            }))
+        }
+        finally {
+            setIsLoading(false);
         }
     }
 
-    const handleCloseSnackBar = (event, reason) => {
-        setAlert({
-            msg: "",
-            type: "",
-            openSnackBar: false,
-        });
-    }
+    const isButtonDisabled = !email || !password || isLoading;
 
     return (
         <>
@@ -99,6 +96,8 @@ const SignUp = ({ handleClose }) => {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     sx={textFieldStyles}
+                    name='email'
+                    required
                 />
                 <TextField
                     type="password"
@@ -107,6 +106,8 @@ const SignUp = ({ handleClose }) => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     sx={textFieldStyles}
+                    name='password'
+                    required
                 />
                 <TextField
                     type="password"
@@ -115,11 +116,11 @@ const SignUp = ({ handleClose }) => {
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     sx={textFieldStyles}
+                    name='confirm password'
+                    required
                 />
-                <Button title={"SignUp"} onClick={handleSubmit} />
+                <Button title={"SignUp"} isLoading={isLoading} onClick={handleSubmit} disabled={isButtonDisabled} />
 
-
-                <CustomizedSnackbars open={alert.openSnackBar} handleClose={handleCloseSnackBar} alert={alert} />
             </Box>
         </>
     );
