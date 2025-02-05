@@ -1,8 +1,7 @@
 import { useTheme } from '@/Context/ThemeContext';
-import { Alert, Box, TextField } from '@mui/material';
+import { Box, TextField } from '@mui/material';
 import React, { useState } from 'react';
 import Button from '../Button';
-import CustomizedSnackbars from './CustomizedSnackbars';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../../../firebaseConfig';
 import { useDispatch } from 'react-redux';

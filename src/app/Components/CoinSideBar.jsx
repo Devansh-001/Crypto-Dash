@@ -1,7 +1,6 @@
 "use client"
 
 import Image from 'next/image'
-import ReactHtmlParser from "html-react-parser"
 import { useDispatch, useSelector } from 'react-redux'
 import Button from './Button'
 import { doc, setDoc } from 'firebase/firestore'

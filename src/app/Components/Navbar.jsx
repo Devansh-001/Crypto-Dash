@@ -4,8 +4,7 @@ import { useTheme } from "@/Context/ThemeContext"
 import Image from "next/image"
 import logo from "../../../public/logo.png"
 import { IoMdMoon, IoMdSunny } from "react-icons/io";
-import { MdCurrencyRupee, MdHome } from "react-icons/md";
-import { FaSignInAlt } from "react-icons/fa";
+import { MdHome } from "react-icons/md";
 import Link from "next/link";
 import Button from "./Button";
 import { setCurrency } from "@/redux/coinSlice";
