@@ -21,7 +21,7 @@ const CoinPage = async ({ params }) => {
     }
 
     return (
-        <div className="bg-light-background text-light-text dark:bg-dark-background dark:text-dark-text flex flex-col sm:flex-row items-center p-3 h-screen">
+        <div className="bg-light-background text-light-text dark:bg-dark-background dark:text-dark-text flex flex-col sm:flex-row items-center p-3 h-full md:h-screen">
             <CoinSideBar coin={coin} />
             <CoinChart coin={coin} />
         </div>
